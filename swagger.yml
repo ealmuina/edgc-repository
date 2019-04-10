@@ -1,0 +1,69 @@
+swagger: "2.0"
+info:
+  description: This is the swagger file that goes with our server code
+  version: "1.0.0"
+  title: Swagger REST Article
+consumes:
+  - application/json
+produces:
+  - application/json
+
+basePath: /api
+
+# Paths supported by the server application
+paths:
+  /task:
+    get:
+      operationId: task.read
+      tags:
+        - Task
+      summary: The task input structure supported by the server application
+      description: Read the information necessary to get a task
+      parameters:
+        - name: domainId
+          in: query
+          description: ID of the domain requesting a task
+          type: integer
+          required: True
+      responses:
+        200:
+          description: Successful read task operation
+          schema:
+            type: object
+            properties:
+              address:
+                type: string
+              port:
+                type: integer
+              name:
+                type: string
+              size:
+                type: integer
+              id:
+                type: integer
+  /register:
+    post:
+      operationId: domain.register
+      tags:
+        - Domain
+      summary: Register a new domain in the repository
+      description: Register a new domain in the repository
+      parameters:
+        - name: domain
+          in: body
+          description: Information describing the domain composition
+          required: True
+          schema:
+            type: object
+            properties:
+              nodes:
+                type: integer
+                description: Number of nodes in the domain
+      responses:
+        200:
+          description: Successful register domain operation
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
