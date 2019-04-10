@@ -67,3 +67,30 @@ paths:
             properties:
               id:
                 type: integer
+  /report:
+    post:
+      operationId: task.report
+      tags:
+        - Report
+      summary: Report the output of a task
+      description: Report the output of a task
+      consumes:
+        - multipart/form-data
+      parameters:
+        - name: domainId
+          in: query
+          description: The domain ID
+          required: True
+          type: integer
+        - name: taskId
+          in: query
+          description: The task ID
+          required: True
+          type: integer
+        - name: outputFile
+          in: formData
+          type: file
+          description: The file with the results of the task.
+      responses:
+        200:
+          description: Successful report operation

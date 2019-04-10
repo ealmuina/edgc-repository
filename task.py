@@ -13,7 +13,7 @@ def get_task(domain_id):
             domain=domain,
             kernel='kernel/kernel-0.txt',
             input='input/in-0.tar.gz'
-        )
+        )[0]
         task.output = None
         task.completed = False
         task.save()
@@ -38,15 +38,18 @@ def read(domainId):
     return {
         'id': 1,
         'kernel': task.kernel,
-        'input': task.data,
+        'input': task.input,
         'kernel_md5': md5(task.kernel),
-        'input_md5': md5(task.data)
+        'input_md5': md5(task.input)
     }
 
 
-def report(taskId):
+def report(domainId, taskId, outputFile):
     try:
         task = Task.get_by_id(taskId)
-
+        # Check if task belongs to reported domain
+        if task.domain.id != domainId:
+            abort(404)
+        outputFile.save(f'output/{outputFile.filename}')
     except Task.DoesNotExist:
         abort(404)
