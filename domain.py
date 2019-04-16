@@ -5,7 +5,7 @@ from model import Domain
 
 def register(domain):
     ip_addr = request.remote_addr
-    nodes = int(domain.get('nodes'))
+    nodes = len(domain)
 
     try:
         domain = Domain.get(ip=ip_addr)

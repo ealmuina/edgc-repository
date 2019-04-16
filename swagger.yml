@@ -54,11 +54,11 @@ paths:
           description: Information describing the domain composition
           required: True
           schema:
-            type: object
-            properties:
-              nodes:
-                type: integer
-                description: Number of nodes in the domain
+            type: array
+            items:
+              properties:
+                loadavg:
+                  type: string
       responses:
         200:
           description: Successful register domain operation
