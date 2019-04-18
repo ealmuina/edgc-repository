@@ -6,6 +6,7 @@ db = SqliteDatabase('db.sqlite3')
 class Domain(Model):
     ip = IPField(unique=True)
     nodes = IntegerField()
+    cpus = IntegerField()
 
     class Meta:
         database = db
