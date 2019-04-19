@@ -7,6 +7,8 @@ class Domain(Model):
     ip = IPField(unique=True)
     nodes = IntegerField()
     cpus = IntegerField()
+    mhz = FloatField()
+    memory = IntegerField()
 
     class Meta:
         database = db

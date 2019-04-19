@@ -1,31 +1,45 @@
 from antlr4 import *
 from flask import request
 
+import parsing.cpuinfo as cpuinfo
+import parsing.meminfo as meminfo
 from model import Domain
 from parsing.CPUinfoLexer import CPUinfoLexer
 from parsing.CPUinfoParser import CPUinfoParser
-from parsing.cpuinfo import Evaluator
+from parsing.MeminfoLexer import MeminfoLexer
+from parsing.MeminfoParser import MeminfoParser
+
+
+def parse_file(data, parser_cls, lexer_cls, evaluator_cls):
+    # Parse file
+    file = InputStream(data)
+    lexer = lexer_cls(file)
+    stream = CommonTokenStream(lexer)
+    parser = parser_cls(stream)
+    tree = parser.compileUnit()
+
+    # Evaluate content
+    evaluator = evaluator_cls()
+    return evaluator.visit(tree)
 
 
 def register(domain):
     ip_addr = request.remote_addr
     nodes = len(domain)
     cpus = 0
+    mhz = 0
+    total_memory = 0
 
     for node in domain:
         # Parse cpuinfo file
-        cpuinfo = InputStream(node['cpuinfo'])
-        lexer = CPUinfoLexer(cpuinfo)
-        stream = CommonTokenStream(lexer)
-        parser = CPUinfoParser(stream)
-        tree = parser.compileUnit()
-
-        # Evaluate cpuinfo content
-        evaluator = Evaluator()
-        processors = evaluator.visit(tree)
+        processors = parse_file(node['cpuinfo'], CPUinfoParser, CPUinfoLexer, cpuinfo.Evaluator)
+        # Parse meminfo file
+        memory_stats = parse_file(node['meminfo'], MeminfoParser, MeminfoLexer, meminfo.Evaluator)
 
         # Update domain global information
         cpus += len(processors)
+        mhz += sum(map(lambda p: float(p['cpu MHz']), processors))
+        total_memory += int(memory_stats['MemTotal'].split()[0])
 
     try:
         domain = Domain.get(ip=ip_addr)
@@ -34,6 +48,8 @@ def register(domain):
 
     domain.nodes = nodes
     domain.cpus = cpus
+    domain.mhz = mhz
+    domain.memory = total_memory
     domain.save()
 
     return {
