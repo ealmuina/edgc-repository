@@ -18,7 +18,9 @@ class Task(Model):
     domain = ForeignKeyField(Domain, backref='tasks')
     kernel = CharField(max_length=255)
     input = CharField(max_length=255)
-    output = CharField(max_length=255, null=True)
+    output = CharField(max_length=255)
+    pack = CharField(max_length=255)
+    unpack = CharField(max_length=255)
     completed = BooleanField(default=False)
 
     class Meta:

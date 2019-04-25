@@ -12,9 +12,11 @@ def get_task(domain_id):
         task = Task.get_or_create(
             domain=domain,
             kernel='kernel/kernel-0.txt',
-            input='input/in-0.tar.gz'
+            input='input/in-0.tar.gz',
+            output='output/out-0.tar.gz',
+            unpack='scripts/unpack-0.sh',
+            pack='scripts/pack-0.sh'
         )[0]
-        task.output = None
         task.completed = False
         task.save()
         return task
@@ -39,8 +41,13 @@ def read(domainId):
         'id': 1,
         'kernel': task.kernel,
         'input': task.input,
+        'output': task.output,
+        'unpack': task.unpack,
+        'pack': task.pack,
         'kernel_md5': md5(task.kernel),
-        'input_md5': md5(task.input)
+        'input_md5': md5(task.input),
+        'unpack_md5': md5(task.unpack),
+        'pack_md5': md5(task.pack)
     }
 
 

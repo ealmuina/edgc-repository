@@ -9,7 +9,7 @@ compileUnit
     ;
 
 attribute
-    :   TEXT ':' TEXT 'kB'                              # Attr
+    :   TEXT ':' TEXT 'kB'?                             # Attr
     ;
 
 /*

@@ -10,16 +10,18 @@ from typing.io import TextIO
 def serializedATN():
     with StringIO() as buf:
         buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\6")
-        buf.write("\23\4\2\t\2\4\3\t\3\3\2\6\2\b\n\2\r\2\16\2\t\3\2\3\2\3")
-        buf.write("\3\3\3\3\3\3\3\3\3\3\3\2\2\4\2\4\2\2\2\21\2\7\3\2\2\2")
-        buf.write("\4\r\3\2\2\2\6\b\5\4\3\2\7\6\3\2\2\2\b\t\3\2\2\2\t\7\3")
-        buf.write("\2\2\2\t\n\3\2\2\2\n\13\3\2\2\2\13\f\7\2\2\3\f\3\3\2\2")
-        buf.write("\2\r\16\7\5\2\2\16\17\7\3\2\2\17\20\7\5\2\2\20\21\7\4")
-        buf.write("\2\2\21\5\3\2\2\2\3\t")
+        buf.write("\24\4\2\t\2\4\3\t\3\3\2\6\2\b\n\2\r\2\16\2\t\3\2\3\2\3")
+        buf.write("\3\3\3\3\3\3\3\5\3\22\n\3\3\3\2\2\4\2\4\2\2\2\23\2\7\3")
+        buf.write("\2\2\2\4\r\3\2\2\2\6\b\5\4\3\2\7\6\3\2\2\2\b\t\3\2\2\2")
+        buf.write("\t\7\3\2\2\2\t\n\3\2\2\2\n\13\3\2\2\2\13\f\7\2\2\3\f\3")
+        buf.write("\3\2\2\2\r\16\7\5\2\2\16\17\7\3\2\2\17\21\7\5\2\2\20\22")
+        buf.write("\7\4\2\2\21\20\3\2\2\2\21\22\3\2\2\2\22\5\3\2\2\2\4\t")
+        buf.write("\21")
         return buf.getvalue()
 
 
 class MeminfoParser(Parser):
+
     grammarFileName = "Meminfo.g4"
 
     atn = ATNDeserializer().deserialize(serializedATN())
@@ -54,6 +56,7 @@ class MeminfoParser(Parser):
         def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
             super().__init__(parent, invokingState)
             self.parser = parser
+
 
         def getRuleIndex(self):
             return MeminfoParser.RULE_compileUnit
@@ -90,13 +93,13 @@ class MeminfoParser(Parser):
         try:
             localctx = MeminfoParser.FileContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
-            self.state = 5
+            self.state = 5 
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while True:
                 self.state = 4
                 self.attribute()
-                self.state = 7
+                self.state = 7 
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
                 if not (_la == MeminfoParser.TEXT):
@@ -112,11 +115,13 @@ class MeminfoParser(Parser):
             self.exitRule()
         return localctx
 
+
     class AttributeContext(ParserRuleContext):
 
         def __init__(self, parser, parent: ParserRuleContext = None, invokingState: int = -1):
             super().__init__(parent, invokingState)
             self.parser = parser
+
 
         def getRuleIndex(self):
             return MeminfoParser.RULE_attribute
@@ -146,6 +151,7 @@ class MeminfoParser(Parser):
 
         localctx = MeminfoParser.AttributeContext(self, self._ctx, self.state)
         self.enterRule(localctx, 2, self.RULE_attribute)
+        self._la = 0  # Token type
         try:
             localctx = MeminfoParser.AttrContext(self, localctx)
             self.enterOuterAlt(localctx, 1)
@@ -155,8 +161,14 @@ class MeminfoParser(Parser):
             self.match(MeminfoParser.T__0)
             self.state = 13
             self.match(MeminfoParser.TEXT)
-            self.state = 14
-            self.match(MeminfoParser.T__1)
+            self.state = 15
+            self._errHandler.sync(self)
+            _la = self._input.LA(1)
+            if _la == MeminfoParser.T__1:
+                self.state = 14
+                self.match(MeminfoParser.T__1)
+
+
         except RecognitionException as re:
             localctx.exception = re
             self._errHandler.reportError(self, re)

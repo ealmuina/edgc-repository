@@ -1,3 +1,4 @@
 .idea/
 venv/
+gen/
 db.sqlite3

@@ -16,10 +16,10 @@ def home():
 
 @app.route('/<path:path>')
 def send_file(path):
-    if path.startswith('input/'):
-        return send_from_directory('input', path[6:])
-    elif path.startswith('kernel/'):
-        return send_from_directory('kernel', path[7:])
+    allowed_dirs = ['input', 'kernel', 'scripts']
+    for d in allowed_dirs:
+        if path.startswith(f'{d}/'):
+            return send_from_directory(d, path[len(d) + 1:])
     return abort(404)
 
 
