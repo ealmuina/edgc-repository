@@ -5,23 +5,29 @@ from flask import abort
 from model import Task, Domain
 
 
-def get_task(domain_id):
+def classify_domain(domain):
     # TODO Make it real
+    return 2, 2, 2  # cpu_intensity, com_intensity, io_intensity
+
+
+def get_task(domain_id):
     try:
         domain = Domain.get_by_id(domain_id)
-        task = Task.get_or_create(
-            domain=domain,
-            kernel='kernel/kernel-0.txt',
-            input='input/in-0.tar.gz',
-            output='output/out-0.tar.gz',
-            unpack='scripts/unpack-0.sh',
-            pack='scripts/pack-0.sh'
-        )[0]
-        task.completed = False
+        cpu_intensity, com_intensity, io_intensity = classify_domain(domain)
+        task = Task.get(
+            ~Task.completed,
+            Task.domain.is_null(),
+            Task.cpu_intensity <= cpu_intensity,
+            Task.com_intensity <= com_intensity,
+            Task.io_intensity <= io_intensity
+        )
+        task.domain = domain
         task.save()
         return task
     except Domain.DoesNotExist:
         abort(404)
+    except Task.DoesNotExist:
+        abort(503)
 
 
 def md5(file_name):
@@ -38,7 +44,10 @@ def read(domainId):
     task = get_task(domainId)
     # Return task metadata
     return {
-        'id': 1,
+        'id': task.id,
+        'cpu_intensity': task.cpu_intensity,
+        'com_intensity': task.com_intensity,
+        'io_intensity': task.io_intensity,
         'kernel': task.kernel,
         'input': task.input,
         'output': task.output,
