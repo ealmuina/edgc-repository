@@ -9,6 +9,7 @@ class Domain(Model):
     cpus = IntegerField()
     mhz = FloatField()
     memory = IntegerField()
+    net_speed = IntegerField()
 
     class Meta:
         database = db
@@ -18,7 +19,7 @@ class Task(Model):
     domain = ForeignKeyField(Domain, backref='tasks', null=True)
     cpu_intensity = IntegerField()
     com_intensity = IntegerField()
-    io_intensity = IntegerField()
+    mem_intensity = IntegerField()
     kernel = CharField(max_length=255)
     input = CharField(max_length=255)
     output = CharField(max_length=255)

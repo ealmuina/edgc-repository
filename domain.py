@@ -29,12 +29,15 @@ def register(domain):
     cpus = 0
     mhz = 0
     total_memory = 0
+    total_speed = 0
 
     for node in domain:
         # Parse cpuinfo file
         processors = parse_file(node['cpuinfo'], CPUinfoParser, CPUinfoLexer, cpuinfo.Evaluator)
         # Parse meminfo file
         memory_stats = parse_file(node['meminfo'], MeminfoParser, MeminfoLexer, meminfo.Evaluator)
+        # Get network speed
+        total_speed += int(node.get('speed', '100'))
 
         # Update domain global information
         cpus += len(processors)
@@ -49,6 +52,7 @@ def register(domain):
     domain.nodes = nodes
     domain.cpus = cpus
     domain.mhz = mhz
+    domain.net_speed = total_speed // nodes
     domain.memory = total_memory
     domain.save()
 

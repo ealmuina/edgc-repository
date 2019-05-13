@@ -6,9 +6,9 @@ if __name__ == '__main__':
     db.create_tables([Task, Domain])
 
     t1 = Task(
-        cpu_intensity=2,
-        com_intensity=1,
-        io_intensity=0,
+        cpu_intensity=2000,
+        com_intensity=100,
+        mem_intensity=2000000,
         kernel='kernel/kernel-0.txt',
         input='input/in-0.tar.gz',
         output='output/out-0.tar.gz',

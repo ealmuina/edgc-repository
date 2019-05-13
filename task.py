@@ -5,21 +5,15 @@ from flask import abort
 from model import Task, Domain
 
 
-def classify_domain(domain):
-    # TODO Make it real
-    return 2, 2, 2  # cpu_intensity, com_intensity, io_intensity
-
-
 def get_task(domain_id):
     try:
         domain = Domain.get_by_id(domain_id)
-        cpu_intensity, com_intensity, io_intensity = classify_domain(domain)
         task = Task.get(
             ~Task.completed,
             Task.domain.is_null(),
-            Task.cpu_intensity <= cpu_intensity,
-            Task.com_intensity <= com_intensity,
-            Task.io_intensity <= io_intensity
+            Task.cpu_intensity <= domain.mhz,
+            Task.com_intensity <= domain.net_speed,
+            Task.mem_intensity <= domain.memory
         )
         task.domain = domain
         task.save()
