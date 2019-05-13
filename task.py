@@ -45,9 +45,6 @@ def read(domainId):
     # Return task metadata
     return {
         'id': task.id,
-        'cpu_intensity': task.cpu_intensity,
-        'com_intensity': task.com_intensity,
-        'io_intensity': task.io_intensity,
         'kernel': task.kernel,
         'input': task.input,
         'output': task.output,
