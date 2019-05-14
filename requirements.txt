@@ -15,7 +15,7 @@ itsdangerous==1.1.0
 jsonschema==2.6.0
 openapi-spec-validator==0.2.6
 pathlib==1.0.1
-peewee==3.9.5
+peewee==3.9.3
 pip==19.0.3
 requests==2.21.0
 serpent==1.28

@@ -58,5 +58,7 @@ def report(domainId, taskId, outputFile):
         if task.domain.id != domainId:
             abort(404)
         outputFile.save(f'output/{outputFile.filename}')
+        task.completed = True
+        task.save()
     except Task.DoesNotExist:
         abort(404)
