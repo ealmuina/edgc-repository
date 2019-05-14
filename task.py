@@ -34,7 +34,6 @@ def md5(file_name):
 
 # Create a handler for our read (GET) task
 def read(domainId):
-    print(f'Node {domainId} requested task')
     task = get_task(domainId)
     # Return task metadata
     return {
