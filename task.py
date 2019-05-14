@@ -57,7 +57,7 @@ def report(domainId, taskId, outputFile):
         # Check if task belongs to reported domain
         if task.domain.id != domainId:
             abort(404)
-        outputFile.save(f'output/{outputFile.filename}')
+        outputFile.save('output/%s' % outputFile.filename)
         task.completed = True
         task.save()
     except Task.DoesNotExist:

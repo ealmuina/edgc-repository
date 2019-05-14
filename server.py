@@ -18,7 +18,7 @@ def home():
 def send_file(path):
     allowed_dirs = ['input', 'kernel', 'scripts']
     for d in allowed_dirs:
-        if path.startswith(f'{d}/'):
+        if path.startswith('%s/' % d):
             return send_from_directory(d, path[len(d) + 1:])
     return abort(404)
 
