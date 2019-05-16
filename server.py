@@ -1,5 +1,9 @@
+import argparse
+
 import connexion
 from flask import render_template, send_from_directory, abort
+
+import task
 
 # Create the application instance
 app = connexion.App(__name__, specification_dir='./')
@@ -29,4 +33,10 @@ def run_flask():
 
 # If we're running in stand alone mode, run the application
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--greedy', action='store_true')
+    args = parser.parse_args()
+
+    task.GREEDY_TASKS = args.greedy
+
     run_flask()
