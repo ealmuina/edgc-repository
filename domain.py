@@ -27,22 +27,21 @@ def register(domain):
     ip_addr = request.remote_addr
     nodes = len(domain)
     cpus = 0
-    mhz = 0
     total_memory = 0
-    total_speed = 0
+    total_bandwidth = 0
+    total_mflops = 0
 
     for node in domain:
         # Parse cpuinfo file
         processors = parse_file(node['cpuinfo'], CPUinfoParser, CPUinfoLexer, cpuinfo.Evaluator)
         # Parse meminfo file
         memory_stats = parse_file(node['meminfo'], MeminfoParser, MeminfoLexer, meminfo.Evaluator)
-        # Get network speed
-        total_speed += int(node.get('speed', '100'))
 
         # Update domain global information
         cpus += len(processors)
-        mhz += sum(map(lambda p: float(p['cpu MHz']), processors))
         total_memory += int(memory_stats['MemTotal'].split()[0])
+        total_bandwidth += float(node.get('mpi_bandwidth'))
+        total_mflops += float(node.get('mflops')) * cpus
 
     try:
         domain = Domain.get(ip=ip_addr)
@@ -51,8 +50,8 @@ def register(domain):
 
     domain.nodes = nodes
     domain.cpus = cpus
-    domain.mhz = mhz
-    domain.net_speed = total_speed // nodes
+    domain.mflops = total_mflops
+    domain.mpi_bandwidth = total_bandwidth / nodes
     domain.memory = total_memory
     domain.save()
 

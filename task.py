@@ -18,8 +18,8 @@ def get_task(domain_id):
             task = tasks.get()
         else:
             task = tasks.where(
-                Task.cpu_intensity <= domain.mhz,
-                Task.com_intensity <= domain.net_speed,
+                Task.cpu_intensity <= domain.mflops,
+                Task.com_intensity <= domain.mpi_bandwidth,
                 Task.mem_intensity <= domain.memory
             ).get()
         task.domain = domain
@@ -32,11 +32,13 @@ def get_task(domain_id):
 
 
 def md5(file_name):
-    hash_md5 = hashlib.md5()
-    with open(file_name, "rb") as f:
-        for chunk in iter(lambda: f.read(4096), b""):
-            hash_md5.update(chunk)
-    return hash_md5.hexdigest()
+    if file_name:
+        hash_md5 = hashlib.md5()
+        with open(file_name, "rb") as f:
+            for chunk in iter(lambda: f.read(4096), b""):
+                hash_md5.update(chunk)
+        return hash_md5.hexdigest()
+    return ''
 
 
 # Create a handler for our read (GET) task

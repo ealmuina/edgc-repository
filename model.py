@@ -7,9 +7,9 @@ class Domain(Model):
     ip = IPField(unique=True)
     nodes = IntegerField()
     cpus = IntegerField()
-    mhz = FloatField()
+    mflops = FloatField()
     memory = IntegerField()
-    net_speed = IntegerField()
+    mpi_bandwidth = FloatField()
 
     class Meta:
         database = db
@@ -21,7 +21,7 @@ class Task(Model):
     com_intensity = IntegerField()
     mem_intensity = IntegerField()
     kernel = CharField(max_length=255)
-    input = CharField(max_length=255)
+    input = CharField(max_length=255, default='')
     output = CharField(max_length=255)
     pack = CharField(max_length=255)
     unpack = CharField(max_length=255)
