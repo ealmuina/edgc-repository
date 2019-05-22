@@ -30,17 +30,6 @@ paths:
           description: Successful read task operation
           schema:
             type: object
-            properties:
-              address:
-                type: string
-              port:
-                type: integer
-              name:
-                type: string
-              size:
-                type: integer
-              id:
-                type: integer
   /register:
     post:
       operationId: domain.register
@@ -55,10 +44,6 @@ paths:
           required: True
           schema:
             type: array
-            items:
-              properties:
-                cpuinfo:
-                  type: string
       responses:
         200:
           description: Successful register domain operation
