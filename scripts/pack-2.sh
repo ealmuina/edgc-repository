@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-tar -czf output/out-2.tar.gz ~/FlexMPI/controller/logs
+tar -czf output/output-2.tar.gz ~/FlexMPI/controller/logs
