@@ -17,6 +17,8 @@ class Domain(Model):
 
 class Task(Model):
     domain = ForeignKeyField(Domain, backref='tasks', null=True)
+    assign_date = DateTimeField(null=True)
+    completed_date = DateTimeField(null=True)
     cpu_intensity = IntegerField()
     com_intensity = IntegerField()
     mem_intensity = IntegerField()

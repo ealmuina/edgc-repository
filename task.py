@@ -1,4 +1,5 @@
 import hashlib
+from datetime import datetime
 
 from flask import abort
 
@@ -23,6 +24,7 @@ def get_task(domain_id):
                 Task.mem_intensity <= domain.memory
             ).get()
         task.domain = domain
+        task.assign_date = datetime.now()
         task.save()
         return task
     except Domain.DoesNotExist:
@@ -67,6 +69,7 @@ def report(domainId, taskId, outputFile):
             abort(404)
         outputFile.save('output/%s' % outputFile.filename)
         task.completed = True
+        task.completed_date = datetime.now()
         task.save()
     except Task.DoesNotExist:
         abort(404)
