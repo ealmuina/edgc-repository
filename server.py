@@ -28,9 +28,9 @@ def run_flask():
 # If we're running in stand alone mode, run the application
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--greedy', action='store_true')
+    parser.add_argument('--no-greedy', action='store_false')
     args = parser.parse_args()
 
-    task.GREEDY_TASKS = args.greedy
+    task.GREEDY_TASKS = args.no_greedy
 
     run_flask()

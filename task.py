@@ -1,11 +1,18 @@
 import hashlib
 from datetime import datetime
 
+import numpy as np
 from flask import abort
 
 from model import Task, Domain
 
-GREEDY_TASKS = False
+GREEDY_TASKS = True
+
+
+def distance(x, y):
+    x = np.array(x)
+    y = np.array(y)
+    return np.linalg.norm(x - y)
 
 
 def get_task(domain_id):
@@ -13,16 +20,20 @@ def get_task(domain_id):
         domain = Domain.get_by_id(domain_id)
         tasks = Task.select().where(
             ~Task.completed,
-            Task.domain.is_null()
+            Task.domain.is_null(),
+            Task.cpu_intensity <= domain.mflops,
+            Task.com_intensity <= domain.mpi_bandwidth,
+            Task.mem_intensity <= domain.memory
         )
         if GREEDY_TASKS:
-            task = tasks.get()
+            tasks = sorted(
+                tasks,
+                key=lambda t: distance((t.cpu_intensity, t.com_intensity, t.mem_intensity),
+                                       (domain.mflops, domain.mpi_bandwidth, domain.memory))
+            )
+            task = tasks[0]
         else:
-            task = tasks.where(
-                Task.cpu_intensity <= domain.mflops,
-                Task.com_intensity <= domain.mpi_bandwidth,
-                Task.mem_intensity <= domain.memory
-            ).get()
+            task = tasks.get()
         task.domain = domain
         task.assign_date = datetime.now()
         task.save()
