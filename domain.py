@@ -10,7 +10,7 @@ from parsing.MeminfoLexer import MeminfoLexer
 from parsing.MeminfoParser import MeminfoParser
 
 
-def parse_file(data, parser_cls, lexer_cls, evaluator_cls):
+def _parse_file(data, parser_cls, lexer_cls, evaluator_cls):
     # Parse file
     file = InputStream(data)
     lexer = lexer_cls(file)
@@ -33,9 +33,9 @@ def register(domain):
 
     for node in domain:
         # Parse cpuinfo file
-        processors = parse_file(node['cpuinfo'], CPUinfoParser, CPUinfoLexer, cpuinfo.Evaluator)
+        processors = _parse_file(node['cpuinfo'], CPUinfoParser, CPUinfoLexer, cpuinfo.Evaluator)
         # Parse meminfo file
-        memory_stats = parse_file(node['meminfo'], MeminfoParser, MeminfoLexer, meminfo.Evaluator)
+        memory_stats = _parse_file(node['meminfo'], MeminfoParser, MeminfoLexer, meminfo.Evaluator)
 
         # Update domain global information
         cpus += len(processors)

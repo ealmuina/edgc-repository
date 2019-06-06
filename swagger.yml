@@ -14,7 +14,7 @@ basePath: /api
 paths:
   /task:
     get:
-      operationId: task.read
+      operationId: task.request
       tags:
         - Task
       summary: The task input structure supported by the server application
