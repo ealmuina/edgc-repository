@@ -23,6 +23,7 @@ class Task(Model):
     com_intensity = IntegerField()
     mem_intensity = IntegerField()
     kernel = CharField(max_length=255)
+    parameters = CharField(max_length=1023, default='')
     input = CharField(max_length=255, default='')
     output = CharField(max_length=255)
     pack = CharField(max_length=255)

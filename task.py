@@ -61,6 +61,7 @@ def request(domainId):
     return {
         'id': task.id,
         'kernel': task.kernel,
+        'parameters': task.parameters,
         'input': task.input,
         'output': task.output,
         'unpack': task.unpack,
