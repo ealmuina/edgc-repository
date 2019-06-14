@@ -20,7 +20,7 @@ if __name__ == '__main__':
             com_intensity=0,
             mem_intensity=0,
             kernel='kernel/dlkernel2.so',
-            parameters='10000:2:1:0:2.500000:1000',
+            parameters='10000:2:1:0:2.500000:500',
             output='output/out-2.tar.gz',
             pack='scripts/pack-2.sh',
             unpack='scripts/unpack-2.sh'
