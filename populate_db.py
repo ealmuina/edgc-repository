@@ -31,6 +31,7 @@ if __name__ == '__main__':
             mem_intensity=0,
             kernel='kernel/dlkernel3.so',
             parameters='3500:2:1:0:2.500000:500',
+            # input='input/nd6k.dat',
             output='output/out-3.tar.gz',
             pack='scripts/pack-3.sh',
             unpack='scripts/unpack-3.sh'
