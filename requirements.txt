@@ -17,7 +17,7 @@ numpy==1.16.4
 openapi-spec-validator==0.2.6
 pathlib==1.0.1
 peewee==3.9.3
-pip==19.0.3
+pip==21.1
 requests==2.21.0
 serpent==1.28
 setuptools==39.1.0
